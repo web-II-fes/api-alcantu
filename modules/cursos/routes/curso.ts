@@ -1,51 +1,54 @@
 import * as express from 'express';
-import { cursoSchema } from '../schemas/curso';
+import { cursoSchema } from './../schemas/curso';
 
 const router = express.Router();
 
-router.get('/curso', async (req, res, next) => {
-    let cursos = await cursoSchema.find();
-    
-	try{
-		res.send(cursos);
-	} catch (err) {
-		throw err;
-		}
-	});
-
-router.post('/curso', async (req, res, next) => {
-    const curso = await new cursoSchema(req.body);
-
-	curso.save((err, curso) => {
-        try{
-            res.json(curso);
-        } catch (err){
-            return err;
-        }
-	});
-    
-});
-
-router.put('/curso/:_id', async (req, res, next) => {
-	let curso = await cursoSchema.findByIdAndUpdate(req.params._id, req.body, { new: true }, (err, curso) => {
-        
-        try{
-            res.send(curso);
-        }   catch (err) {
-            throw err;
-        }
-	});
-});
-
-router.delete('/curso/:_id', async (req, res, next) => {
-	let curso = await cursoSchema.findByIdAndRemove(req.params._id, (err, curso) => {
-        
-        try {
-            console.log('Curso Borrado: ', curso);
-        }   catch (err) {
-            throw err;
-        }
-});
-});
+router.get("/cursos", async (req, res) => {
+    try {
+      let cursos = await cursoSchema.find();
+      res.send(cursos);
+    } catch (err) {
+      throw err;
+    }
+  });
+  
+  router.get("/cursoId/:id", async (req, res) => {
+    let idCurso = req.params.id;
+    try {
+      let cursos = await cursoSchema.findById(idCurso);
+      res.send(cursos);
+    } catch (err) {
+      throw err;
+    }
+  });
+  
+  router.post("/curso", async (req, res) => {
+    try {
+      const curso = new cursoSchema(req.body);
+      let cursoNuevo = await curso.save();
+  
+      res.send(cursoNuevo);
+    } catch (err) {
+      throw err;
+    }
+  });
+  
+  router.put("/curso/:id", async (req, res, next) => {
+    try {
+      let curso = await cursoSchema.findByIdAndUpdate(req.params.id, req.body);
+      res.send(curso);
+    } catch (err) {
+      throw err;
+    }
+  });
+  
+  router.delete("/curso/:id", async (req, res, next) => {
+    try {
+      let curso = await cursoSchema.findByIdAndRemove(req.params.id);
+      console.log("Curso Borrado: ", curso);
+    } catch (err) {
+      throw err;
+    }
+  });
 
 export = router;

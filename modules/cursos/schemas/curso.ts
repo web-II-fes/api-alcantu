@@ -1,10 +1,10 @@
 import { Schema, model } from 'mongoose';
 
 const schemaCurso = new Schema({
-	nombre: String,
-	profesor: String,
+	nombreCurso: { type: String, lowercase: true},
+	profesor: { type: String, lowercase: true},
     anio: Number,
-    estado: String
+    estado: { type: String, lowercase: true}
 });
 
 export let cursoSchema = model('schemaCurso', schemaCurso, 'cursos');

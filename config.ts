@@ -1,6 +1,6 @@
 export const modules = {
 	personas: {
-		active: false,
+		active: true,
 		path: './modules/personas/routes',
 		route: '/modules/personas'
 	},
