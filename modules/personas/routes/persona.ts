@@ -14,6 +14,16 @@ router.get('/persona', (req, res, next) => {
 
 });
 
+router.get("/personaId/:id", async (req, res) => {
+    let idPersona = req.params.id;
+    try {
+      let personas = await personaSchema.findById(idPersona);
+      res.send(personas);
+    } catch (err) {
+      throw err;
+    }
+  });
+
 router.post('/persona', (req, res) => {
 	const persona = new personaSchema(req.body);
 
@@ -25,7 +35,7 @@ router.post('/persona', (req, res) => {
 	});
 });
 
-router.put('/persona/:_id', (req, res, next) => {
+router.put('/persona/:id', (req, res, next) => {
 	personaSchema.findByIdAndUpdate(req.params._id, req.body, { new: true }, (err, persona) => {
 		if (err) {
 			return err;
@@ -35,7 +45,7 @@ router.put('/persona/:_id', (req, res, next) => {
 	});
 });
 
-router.delete('/persona/:_id', (req, res, next) =>{
+router.delete('/persona/:id', (req, res, next) =>{
 	personaSchema.findByIdAndRemove(req.params._id, function(err, persona) {
     if(err){
         console.log("Error", err);
